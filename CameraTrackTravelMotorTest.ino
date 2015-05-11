@@ -10,6 +10,7 @@ For use with the Adafruit Motor Shield v2
 ---->   http://www.adafruit.com/products/1438
 
 Added to GitHub
+
 */
  
  
@@ -51,7 +52,7 @@ void loop() {
  myMotor->release();
  delay(500);
 //  myMotor->step(100, BACKWARD, SINGLE);
- 
+// 
 //  Serial.println("Double coil steps");
 //  myMotor->step(100, FORWARD, DOUBLE);
 //  myMotor->step(100, BACKWARD, DOUBLE);
