@@ -8,6 +8,8 @@ The pad must be placed at the stepper motor end when the program is started
  
 For use with the Adafruit Motor Shield v2
 ---->   http://www.adafruit.com/products/1438
+
+Added to GitHub
 */
  
  
