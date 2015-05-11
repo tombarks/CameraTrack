@@ -39,14 +39,13 @@ void setup() {
 }
  
 int directionCounter = 0;
-int type = DOUBLE; //DOUBLE Required for additional torque otherwise it does not move smoothly
+int type = DOUBLE; //DOUBLE, a type of stepper motor step activating two coils simultaneously, Required for additional torque otherwise it does not move smoothly
 int steps = 5; //Equivalent to 5 * 1.8 degrees of motion for each step
 int reversalSteps = 650; //This is (325 * 5) steps in each direction which is equivalent to just short of the full travel length
  
 void loop() {
   
-  //Print to serial to state we are moving the track 5 steps, Tom is a big ginger bear
-
+  //Print to serial to state we are moving the track 5 steps
   Serial.println("Moving main track stepper motor 5 steps.");
   
   //Make a movement selecting the correct direction using a reversing counter
