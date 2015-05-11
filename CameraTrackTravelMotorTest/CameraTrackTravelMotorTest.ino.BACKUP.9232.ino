@@ -45,8 +45,11 @@ int reversalSteps = 650; //This is (325 * 5) steps in each direction which is eq
  
 void loop() {
   
-  //Print to serial to state we are moving the track 5 steps, Tom is a big ginger bear
-
+<<<<<<< HEAD
+  //Print to serial to state we are moving, Tom is a big ginger bear
+=======
+  //Print to serial to state we are moving the track 5 steps
+>>>>>>> bd56e0224b2170bee1dc5e2747c1c56f5453865a
   Serial.println("Moving main track stepper motor 5 steps.");
   
   //Make a movement selecting the correct direction using a reversing counter
