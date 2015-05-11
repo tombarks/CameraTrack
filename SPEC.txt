@@ -1,0 +1,7 @@
+Specification
+
+Camera track needs to have two methods of motion, a Truck, (left to right and vice versa) and a Pan, Rotation around the Y axis. 
+
+The track needs to have programmable patterns, originally created by a graphical program that shows a graph editor to control the speed and direction of the camera mount.
+
+
