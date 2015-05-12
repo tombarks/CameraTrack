@@ -51,8 +51,14 @@ void setup() {
 //The main process loop
 void loop() {
   
-  //Move the main track stepper motor
-  if(Stepper_DriveMainTrackMotor() == 1)
+  //local stack cars
+  int mainTrackDriveOutcome;
+  
+  //try and drive the main track motor and store the outcome
+  mainTrackDriveOutcome = Stepper_DriveMainTrackMotor();
+  
+  //Check the outcome of the main track drive
+  if(mainTrackDriveOutcome != 0)
   {  
     //Move the camera body rotation stepper motor
     Stepper_DriveCameraBodyRotationMotor();
@@ -62,8 +68,14 @@ void loop() {
     
     //Trigger the camera shutter
     Camera_TriggerShutter();
+    
+    //Do some other action if we have finished the drive
+    if(mainTrackDriveOutcome == 2)
+    {
+       //doalittledance 
+    }
   }
   
   //Delay for loopDelay seconds
-  for(int i = 0; i <= loopDelay; i++)delay(1000);
+  for(int i = 0; i < loopDelay; i++)delay(1000);
 }

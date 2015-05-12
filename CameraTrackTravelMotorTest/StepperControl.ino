@@ -22,12 +22,15 @@ int travelDirection = BACKWARDS; //The current direction of motion
 
 void Stepper_SetTravelParameters(int _stepsPerDrive, int _stepsInFullTravel, int _numberOfTravels)
 {
-  stepsPerDrive =  stepsPerDrive;
+  stepsPerDrive =  _stepsPerDrive;
   stepsInFullTravel = _stepsInFullTravel;
   numberOfTravels = _numberOfTravels;
 }
 
 //Trigger the camera track stepper motor to move a fixed set of steps
+//Returns 0 when no move is carried out due to the number of travels having reached 0
+//Returns 1 when a move is completed
+//Returns 2 when a move is completed but the travel is complete and the number of travels has just reached 0
 int Stepper_DriveMainTrackMotor() {
   
   int moveSteps = 0;  //Stores the number of movement steps this drive
@@ -53,9 +56,9 @@ int Stepper_DriveMainTrackMotor() {
     //Reset travel counter
     travelCounter = 0;
     
-    //Decrement the number of travels
-    if(numberOfTravels != 0)numberOfTravels--;
-    if(numberOfTravels == 0)return 1;
+    //Decrement the number of travels which must be non 0
+    numberOfTravels--;
+    if(numberOfTravels == 0)return 2;
     
     //Reverse direction
     switch(travelDirection)
