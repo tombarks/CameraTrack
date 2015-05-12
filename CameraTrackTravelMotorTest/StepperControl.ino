@@ -77,6 +77,9 @@ int Stepper_DriveMainTrackMotor() {
   //Make a movement selecting the correct direction using a reversing counter
   if(moveSteps > 0)myMotor->step(moveSteps, travelDirection, type);
   
+  //Increment the travel counter
+  travelCounter += moveSteps;
+  
   //Give the instruction to release the motor this removes all electrical power from the motor as it is not required to hold the load stationary
   myMotor->release();
   
