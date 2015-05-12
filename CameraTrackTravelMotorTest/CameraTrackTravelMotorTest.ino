@@ -1,7 +1,9 @@
 /*
 CameraTrack Arduino Project
  
-V1.1 - 11th May 2015
+V1.1 - 12th May 2015
+
+CameraTrackTravelMotorTest.ino
  
 Arduino based camera tracking system. Developed as a collaborative effort between two Chepstonians. 
 Final design goal is a dual motor camera track system allowing for stepped linear motion along the camera track over a fixed time period, 
@@ -61,6 +63,8 @@ void loop() {
   if(mainTrackDriveOutcome != 0)
   {  
     //Move the camera body rotation stepper motor
+    //**This may need to happen in some manner asncronous to the main track motor as the number of steps to achieve the desired camera rotation
+    //**over the desired travel may not be aligned with the main track motor.
     Stepper_DriveCameraBodyRotationMotor();
     
     //Trigger camera autofocus

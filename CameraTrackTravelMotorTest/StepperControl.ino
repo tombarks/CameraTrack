@@ -1,7 +1,9 @@
 /*
 CameraTrack Arduino Project
  
-V1.1 - 11th May 2015
+V1.1 - 12th May 2015
+
+StepperControl.ino
  
 This file contains code for moving the main track and camera body stepper motors.
  

@@ -1,8 +1,10 @@
 /*
 CameraTrack Arduino Project
  
-V1.1 - 11th May 2015
+V1.1 - 12th May 2015
  
+CameraControl.ino
+
 This file contains code for triggering of camera functions.
 
 */
