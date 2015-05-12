@@ -1,18 +1,18 @@
 /*
-This is a test program for use with Robs camera track system.
+CameraTrack Arduino Project
  
 V1.1 - 11th May 2015
  
-This program moves the 3A stepper motor on the camera track 325 * 5 steps in each direction.
-The pad must be placed at the stepper motor end when the program is started
+Arduino based camera tracking system. Developed as a collaborative effort between two Chepstonians. 
+Final design goal is a dual motor camera track system allowing for stepped linear motion along the camera track over a fixed time period, 
+rotatation of the camera body about the vertical axis and automatic triggering of camera.
  
 For use with the Adafruit Motor Shield v2
 ---->   http://www.adafruit.com/products/1438
 
 Added to GitHub at https://github.com/tombarks/CameraTrack
 
-*/
- 
+*/ 
  
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
@@ -20,45 +20,50 @@ Added to GitHub at https://github.com/tombarks/CameraTrack
  
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-// Or, create it with a different I2C address (say for stacking)
-// Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61);
  
-// Connect a stepper motor with 200 steps per revolution (1.8 degree)
-// to motor port #2 (M3 and M4)
+// Connect a stepper motor with 200 steps per revolution (1.8 degree) to motor port #2 (M3 and M4)
 Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
+
+//Global variables
+int loopDelay = 1;  //defines the number of seconds between each motion and camera trigger event
  
- 
+//Main setup routine
 void setup() {
-  Serial.begin(9600);           // set up Serial library at 9600 bps
-  Serial.println("Stepper test!");
- 
-  AFMS.begin();  // create with the default frequency 1.6KHz
-  //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
- 
-  myMotor->setSpeed(10);  // 10 rpm  
+  
+  // set up Serial library at 9600 bps
+  Serial.begin(9600);
+  
+  //Say hello
+  Serial.println("CameraTrack software loading....");
+  
+  // create with the default frequency 1.6KHz
+  AFMS.begin();
+  
+  //Set the motor speed to 10 rpm 
+  myMotor->setSpeed(10);
+
+  //Add some code to load the parameters for the shoot
+  Stepper_SetTravelParameters(5, 1625, 2) //stepsPerDrive, stepsPerTravel, numberOfTravels
+
+  //Add some code to delay the start of the shoot until the user indicates that they are ready to start  
 }
- 
-int directionCounter = 0;
-int type = DOUBLE; //DOUBLE, a type of stepper motor step activating two coils simultaneously, Required for additional torque otherwise it does not move smoothly
-int steps = 5; //Equivalent to 5 * 1.8 degrees of motion for each step
-int reversalSteps = 650; //This is (325 * 5) steps in each direction which is equivalent to just short of the full travel length
- 
+
+//The main process loop
 void loop() {
   
-  //Print to serial to state we are moving the track 5 steps
-  Serial.println("Moving main track stepper motor 5 steps.");
+  //Move the main track stepper motor
+  if(Stepper_DriveMainTrackMotor() == 1)
+  {  
+    //Move the camera body rotation stepper motor
+    Stepper_DriveCameraBodyRotationMotor();
+    
+    //Trigger camera autofocus
+    Camera_TriggerAutoFocus();
+    
+    //Trigger the camera shutter
+    Camera_TriggerShutter();
+  }
   
-  //Make a movement selecting the correct direction using a reversing counter
-  if(directionCounter < reversalSteps / 2)myMotor->step(steps, BACKWARD, type);
-  else myMotor->step(steps, FORWARD, type);
-  
-  //Give the instruction to release the motor this removes all electrical power from the motor as it is not required to hold the load stationary
-  myMotor->release();
-  
-  //Increment and reset the direction counter
-  directionCounter++;
-  if(directionCounter >= reversalSteps)directionCounter = 0;
-  
-  //Delay 500ms  
-  delay(500);
+  //Delay for loopDelay seconds
+  for(int i = 0; i <= loopDelay; i++)delay(1000);
 }
